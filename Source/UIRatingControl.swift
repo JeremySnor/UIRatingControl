@@ -85,12 +85,21 @@ public class UIRatingControl: UIControl {
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let location = touches.first?.location(in: self) {
-            for (index, imageView) in (imageViews ?? []).enumerated() {
-                let imageViewFrame = imageView.frame.insetBy(dx: starsSpacing / 2, dy: 0)
-                if imageViewFrame.contains(location) {
-                    currentRating = index + 1
-                    break
-                }
+            self.catchLocation(location)
+        }
+    }
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let location = touches.first?.location(in: self) {
+            self.catchLocation(location)
+        }
+    }
+    
+    private func catchLocation(_ location: CGPoint) {
+        for (index, imageView) in (imageViews ?? []).enumerated() {
+            let imageViewFrame = imageView.frame.insetBy(dx: starsSpacing / 2, dy: 0)
+            if imageViewFrame.contains(location) {
+                currentRating = index + 1
+                break
             }
         }
     }
